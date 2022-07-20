@@ -2,22 +2,26 @@ import { combineReducers } from 'redux';
 // import { contactsActions } from './contacts-actions';
 import { createReducer } from '@reduxjs/toolkit';
 import {
-  addContactRequest,
-  addContactSuccess,
-  addContactError,
-  deleteContactRequest,
-  deleteContactSuccess,
-  deleteContactError,
+  // addContactRequest,
+  // addContactSuccess,
+  // addContactError,
+  // deleteContactRequest,
+  // deleteContactSuccess,
+  // deleteContactError,
   changeFilter,
 } from 'redux/contacts/contacts-actions';
-import { fetchContacts } from 'redux/contacts/contacts-operations';
+import {
+  fetchContacts,
+  addContact,
+  deleteContact,
+} from 'redux/contacts/contacts-operations';
 
 const items = createReducer([], {
   [fetchContacts.fulfilled]: (_, { payload }) => payload,
   // [fetchContactsSuccess]: (_, { payload }) => payload,
-  [addContactSuccess]: (state, { payload }) => [...state, payload],
+  [addContact.fulfilled]: (state, { payload }) => [...state, payload],
   // [actions.addContact]: (state, { payload }) => [...state, payload],
-  [deleteContactSuccess]: (state, { payload }) =>
+  [deleteContact.fulfilled]: (state, { payload }) =>
     state.filter(({ id }) => id !== payload),
 });
 
@@ -25,12 +29,15 @@ const loading = createReducer(false, {
   [fetchContacts.pending]: () => true,
   [fetchContacts.fulfilled]: () => false,
   [fetchContacts.rejected]: () => false,
-  [addContactRequest]: () => true,
-  [addContactSuccess]: () => false,
-  [addContactError]: () => false,
-  [deleteContactRequest]: () => true,
-  [deleteContactSuccess]: () => false,
-  [deleteContactError]: () => false,
+  [addContact.pending]: () => true,
+  [addContact.fulfilled]: () => false,
+  [addContact.rejected]: () => false,
+  // [addContactRequest]: () => true,
+  // [addContactSuccess]: () => false,
+  // [addContactError]: () => false,
+  [deleteContact.pending]: () => true,
+  [deleteContact.fulfilled]: () => false,
+  [deleteContact.rejected]: () => false,
 });
 
 const filter = createReducer('', {
@@ -39,10 +46,12 @@ const filter = createReducer('', {
 const error = createReducer(null, {
   [fetchContacts.rejected]: (_, action) => action.payload,
   [fetchContacts.pending]: () => null,
-  [addContactError]: (_, action) => action.payload,
-  [addContactRequest]: () => null,
-  [deleteContactError]: (_, action) => action.payload,
-  [deleteContactRequest]: () => null,
+  [addContact.rejected]: (_, action) => action.payload,
+  [addContact.pending]: () => null,
+  // [addContactError]: (_, action) => action.payload,
+  // [addContactRequest]: () => null,
+  [deleteContact.rejected]: (_, action) => action.payload,
+  [deleteContact.pending]: () => null,
 });
 
 export default combineReducers({
