@@ -11,10 +11,10 @@ export const ContactList = () => {
 
   return (
     <List>
-      {contacts.map(({ id, name, number }) => (
+      {contacts.map(({ id, name, phone }) => (
         <Item key={id}>
           <span>
-            {name}: {number}
+            {name}: {phone}
           </span>
           <DeleteBtn type="button" onClick={() => onDeleteContact(id)}>
             Delete
