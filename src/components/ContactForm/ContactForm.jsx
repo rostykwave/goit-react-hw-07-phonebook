@@ -9,7 +9,7 @@ import {
 } from './ContactForm.styled';
 import * as yup from 'yup';
 import { useDispatch } from 'react-redux';
-import { contactsActions } from 'redux/contacts/contacts-actions';
+import { contactsOperations } from 'redux/contacts';
 
 const FormError = ({ name }) => {
   return (
@@ -22,12 +22,12 @@ const FormError = ({ name }) => {
 
 const schema = yup.object().shape({
   name: yup.string().required(),
-  number: yup.string().min(6).max(13).required(),
+  phone: yup.string().min(6).max(13).required(),
 });
 
 const initialValues = {
   name: '',
-  number: '',
+  phone: '',
 };
 
 //main form
@@ -35,7 +35,7 @@ export const ContactForm = () => {
   const dispatch = useDispatch();
 
   const handleSubmit = (values, { resetForm }) => {
-    dispatch(contactsActions.addContact(values));
+    dispatch(contactsOperations.addContact(values));
     resetForm();
   };
 
@@ -57,13 +57,13 @@ export const ContactForm = () => {
         </FormField>
 
         <FormField>
-          <FormLabel>Number</FormLabel>
+          <FormLabel>Phone number</FormLabel>
           <StyledInput
             type="tel"
-            name="number"
+            name="phone"
             title="Phone number must be digits and can contain spaces, dashes, parentheses and can start with +"
           />
-          <FormError name="number" />
+          <FormError name="phone" />
         </FormField>
         <SubmitBtn type="submit">Add contact</SubmitBtn>
       </StyledForm>
